@@ -13,5 +13,9 @@ https://api.github.com/repos/kliff9/DopeChat/commits
 https://github.com/kliff9/DopeChat
 
 
-
+### node app.js
 ![image](https://user-images.githubusercontent.com/121292926/209376669-cc832844-f1c8-4845-bbc6-12be4d8729e4.png)
+
+### git log --use-mailmap
+![image](https://user-images.githubusercontent.com/121292926/209376916-27d9ebe9-9d00-42fa-9ffc-c54d39a67980.png)
+
