@@ -1,30 +1,78 @@
-const fs = require('fs');
-const path = require('path');
 
-// const nodegit = require('nodegit');
+const homelocalgit = 'C:/Users/cthel/OneDrive/Desktop/LESSONS/Git/gitlog/.git'
+const localgit = "C:/Users/Kliff_/Desktop/LESSONS/gitlog/.git";
 
-// async function findObject(repoPath, objectId) {
-//   // Open the repository
-//   const repo = await nodegit.Regit rev-parse --git-dirpository.open(repoPath);
+const simpleGit = require("simple-git")(
+  `${homelocalgit}`
+);
+const fs = require("fs");
 
-//   // Look up the object by its ID
-//   const obj = await repo.getObject(objectId);
+function logg() {
+  simpleGit.log(function (error, data) {
+    if (error) {
+      console.error(error);
+    } else {
+      console.log(data);
+    }
+  });
+}
 
-//   console.log(`Object found: ${obj.id().tostrS()}`);
-// }
+function findgit() {
 
-// findObject('C:/Users/cthel/OneDrive/Desktop/LESSONS/Git/gitlog/.git/', '6c1cf7d7a6bdbd7a86a3f3e7f1e2a29d7a4a9b4c');
-console.log(`GIT_DIR: ${process.env.GIT_DIR}`);
-const repositoryPath = process.cwd();
-const objectPath = `${repositoryPath}.git/objects/`
+// Path to the refs directory
+const refsDir = "C:/Users/Kliff_/Desktop/LESSONS/gitlog/.git/refs";
+const homeRefDir = `${homelocalgit}/refs`
+// Read the contents of the refs directory
+fs.readdir(homelocalgit, (err, files) => {
+  if (err) {
+    // Handle error
+    console.error("err", err);
+    return;
+  }
+  console.log(homelocalgit, 'FILES: ',files);
 
-const objectData = fs.readFileSync(objectPath);
-console.log(objectData)
-// function readObject(objectId) {
-//   const objectPath = `.git/objects/${objectId.slice(0, 2)}/${objectId.slice(2)}`;
-//   const objectData = fs.readFileSync(objectPath);
-//   const objectContent = objectData.toString();
-//   console.log(objectContent);
-// }
+  // Iterate over the array of file names
+//   const revelantfiles = ['objects', 'HEAD']
+  const revelantfiles = {'objects': true, 'HEAD':true}
 
-// readObject('');
+  for (const file of files) {
+    if (file in revelantfiles) {
+  //   // Read the contents of the file
+    fs.readFile(`${homelocalgit}/${file}`, (err, contents) => {
+      if (err) {
+        // Handle error
+        console.error('err: ', err);
+        return;
+      }
+
+      // Extract the commit hash from the contents of the file
+      const commitHash = contents.toString().trim();
+
+      // Do something with the commit hash
+      console.log('COMMITHASH ' + file + ' : ' + commitHash);
+    });
+    }   
+  }
+});
+
+}
+
+function findcommit() {
+    const files = fs.readdirSync(homelocalgit);
+    console.log(files)
+
+// Find the file that contains commit data
+let commitFile;
+for (const file of files) {
+  if (file.startsWith('commit')) {
+    commitFile = file;
+    break;
+  }
+}
+if (!commitFile) {
+    console.error('Could not find commit file in .git/ directory');
+    process.exit(1);
+  }
+}
+
+findcommit()
