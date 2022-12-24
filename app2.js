@@ -69,10 +69,14 @@ for (const file of files) {
     break;
   }
 }
+const commitData = fs.readFileSync(homelocalgit +  "/" + "description", 'utf8');
+console.log(commitData)
 if (!commitFile) {
     console.error('Could not find commit file in .git/ directory');
     process.exit(1);
   }
+
+
 }
 
 findcommit()
