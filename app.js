@@ -11,7 +11,7 @@ const request = require("request");
 const fs = require("fs");
 const path = require("path");
 
-async function main() {
+async function getCommitInfo() {
   // Set the repository owner and name
   const recent = true;
   const owner = "kliff9";
@@ -24,13 +24,14 @@ async function main() {
   console.log(commitHistoryUrl);
 
   // Set the personal access token
-  const personalAccessToken = "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";
+  const apiKey = process.env.token;
+
 
   // Set the options for the request
   const options = {
     url: commitHistoryUrl,
     headers: {
-      Authorization: `Token ${personalAccessToken}`,
+      // Authorization: `Token ${personalAccessToken}`,
       "User-Agent": `${repo}`,
     },
   };
@@ -65,4 +66,4 @@ async function main() {
   });
 }
 
-main();
+getCommitInfo();
