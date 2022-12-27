@@ -18,45 +18,6 @@ function logg() {
   });
 }
 
-function findgit() {
-
-// Path to the refs directory
-const refsDir = "C:/Users/Kliff_/Desktop/LESSONS/gitlog/.git/refs";
-const homeRefDir = `${homelocalgit}/refs`
-// Read the contents of the refs directory
-fs.readdir(homelocalgit, (err, files) => {
-  if (err) {
-    // Handle error
-    console.error("err", err);
-    return;
-  }
-  console.log(homelocalgit, 'FILES: ',files);
-
-  // Iterate over the array of file names
-//   const revelantfiles = ['objects', 'HEAD']
-  const revelantfiles = {'objects': true, 'HEAD':true}
-
-  for (const file of files) {
-    if (file in revelantfiles) {
-  //   // Read the contents of the file
-    fs.readFile(`${homelocalgit}/${file}`, (err, contents) => {
-      if (err) {
-        // Handle error
-        console.error('err: ', err);
-        return;
-      }
-
-      // Extract the commit hash from the contents of the file
-      const commitHash = contents.toString().trim();
-
-      // Do something with the commit hash
-      console.log('COMMITHASH ' + file + ' : ' + commitHash);
-    });
-    }   
-  }
-});
-
-}
 
 function findcommit() {
     const files = fs.readdirSync(homelocalgit);
