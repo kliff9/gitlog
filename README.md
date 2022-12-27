@@ -4,6 +4,15 @@
 
 This Applications Is a API that used Github database to grab the most recent commit of the Repository at hand and it will log the Aurthor, Date and email.
 
+```
+node gitlog.js
+```
+
+![image](https://user-images.githubusercontent.com/32655437/209685164-4b44eade-94b2-4774-aa9a-0a22ca9b00e8.png)
+
+
+## GitHub Version
+
 ### Json File returned from the API
 ```
 https://api.github.com/repos/kliff9/DopeChat/commits
