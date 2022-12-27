@@ -48,14 +48,15 @@ const datarefremote = fs.readFileSync(homelocalgit +  "/logs/refs/remotes/origin
 
 
 
-const branch = fs.readFileSync(homelocalgit +  "/refs/heads/main", 'utf8'); // 78fd9e9cf8a1c993011a5d9bdbbf8eb316a338e5 (recent commit?)
+const branch = fs.readFileSync(homelocalgit +  "/refs/heads/main", 'utf8'); //  (recent commit?)
 const commithead = fs.readFileSync(homelocalgit +  "/HEAD", 'utf8'); // ref: refs/heads/main
 const vommitdata = fs.readFileSync(homelocalgit +  "/objects/78/fd9e9cf8a1c993011a5d9bdbbf8eb316a338e5", 'utf8'); // the data of specifc commit
 const data9f = fs.readFileSync(homelocalgit +  "/objects/9f/cecc6aa2e3b62abac3ad18db082eae4645ee2f", 'utf8'); // idk file names?
 const data84 = fs.readFileSync(homelocalgit +  "/objects/84/1907cc8fc8eb9cc690b1be4fd4cbbc94ac0fb0", 'utf8'); // the data of specifc commit
+const data94 = fs.readFileSync(homelocalgit +  "/objects/94/c3034487c5201537f7e5271a15425b8262210e", 'utf8'); // the data of specifc commit
 
 
-console.log(data84) 
+console.log(vommitdata,"--------------------------" , data94) 
 
 const commitLines = vommitdata.split('\n');
 const authorLine = commitLines.find(line => line.startsWith('author'));
@@ -76,3 +77,4 @@ console.log(`Email: ${email}`); // Email: <c.thelusca@hotmail.com>
 }
 
 findcommit()
+// logg()
