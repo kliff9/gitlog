@@ -1,2 +1,4 @@
 In this example, the master branch is merged into the topic branch. Because the topic branch has commits that are not present in the master branch (namely, commits B and C), a fast-forward merge is not possible. Git will create a new commit to represent the merge, resulting in the following history:
 
+The new commit, H, is called a "merge commit" and it represents the point at which the two branches were merged. Merge commits have two parents, representing the two branches that were merged.
+
