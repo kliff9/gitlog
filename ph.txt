@@ -1,0 +1,2 @@
+Knowing what a fast-forward merge is can be helpful because it can affect the commit history of your project. For example, if you use a fast-forward merge and later decide to revert the merge, the revert will also undo any commits that were made on the merged branch.
+
