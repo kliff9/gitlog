@@ -1,0 +1,2 @@
+A non-fast-forward merge is a type of merge in Git that occurs when the current branch and the branch being merged have diverged. This means that they have separate commit histories that cannot be merged using a fast-forward strategy.
+
