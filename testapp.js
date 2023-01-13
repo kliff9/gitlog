@@ -1,12 +1,35 @@
-/*
+// node.js example
+const path = require("path");
+const git = require("isomorphic-git");
+const http = require("isomorphic-git/http/node");
+const fs = require("fs");
 
-git branch: Lists all branches in the current repository.
-git branch <branch-name>: Creates a new branch with the specified name.
-git checkout <branch-name>: Switches to the specified branch.
-git checkout -b <branch-name>: Creates a new branch with the specified name and immediately switches to it.
-git merge <branch-name>: Merges the specified branch into the current branch.
-git branch -d <branch-name>: Deletes the specified branch.
-git branch -D <branch-name>: Forces the deletion of the specified branch, even if it has unmerged changes.
-git branch -m <new-branch-name>: Renames the current branch to the specified name.
+const dir = path.join(process.cwd(), "test-clone");
 
-*/
+async function main() {
+  await git.clone({
+    fs,
+    http,
+    dir: dir,
+    corsProxy: "https://cors.isomorphic-git.org",
+    url: "https://github.com/kliff9/gitlog",
+    singleBranch: true,
+    depth: 1,
+  });
+  console.log("Successfully Cloned");
+
+  git.init({ fs, dir: dir });
+  console.log("Successfully Init?");
+
+  let status = await git.status({ fs, dir: dir, filepath: "README.md" });
+  console.log("status:", status);
+
+  let commits = await git.log({
+    fs,
+    dir: dir,
+    depth: 5,
+    ref: "main",
+  });
+  console.log("commits: ", commits);
+}
+main();
