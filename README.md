@@ -2,7 +2,7 @@
 
 ### Description
 
-This Applications grabs the most recent commit of the Repository at hand and it will log the Aurthor, Date and email.
+This Applications grabs the most recent commit of the Repository at hand and it will log the Aurthor, Date and email. I also implemented .mailmap
 
 ## using Git
 ```
