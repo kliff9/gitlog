@@ -34,18 +34,39 @@ async function main() {
 }
 // main();
 
+let branch = false
 
-async function main() {
+async function main2() {
   await git.clone({
+    fs,
+    http,
     dir: dir,
     url: "https://github.com/kliff9/gitlog",
 
   });
   console.log("Successfully Cloned");
-
-  await git.branch({
+if (branch) {
+ let newbranch =  await git.branch({
+    fs,
     dir: dir,
-    branch: 'new-branch',
+    ref: 'new-branch',
     startPoint: 'main',
   })
+  console.log("git.branch has ran: ", newbranch);
 }
+
+  // Commit changes to the repository
+let commit1 = await git.commit({
+  fs,
+  dir: dir,
+  message: 'Commiting new Files',
+  author: {
+    name: 'Top G',
+    email: 'TheGoat@email.com',
+  },
+})
+console.log("git.commit has ran: ", commit1);
+
+}
+
+main2()

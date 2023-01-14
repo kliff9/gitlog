@@ -9,15 +9,14 @@ const homelocalgit = 'C:/Users/cthel/OneDrive/Desktop/LESSONS/Git/gitlog/.git'
 function findcommit() {
 
 
-const branch = fs.readFileSync(homelocalgit +  "/refs/heads/main", 'utf8'); //  (returns recent commit hash)
-
+const branch = fs.readFileSync(homelocalgit +  "/refs/heads/main/", 'utf8'); //  (returns recent commit hash)
+console.log(branch)
 const CommitStart = branch.substring(0, 2) // fisrt two characters of the commit hash
 const Commitfilled = branch.substring(2)// the rest of characters of the commit hash
 let commit_data_path = `${homelocalgit}/objects/${CommitStart}/${Commitfilled}` // path to the commit data
 commit_data_path = commit_data_path.trim() // remove any new lines and extra spaces
 
 const recentcommit = fs.readFileSync(commit_data_path, 'utf8'); // the data of specifc commit
-
 
 
 // Finds the link of the Arthor and Email Data and extracts it 

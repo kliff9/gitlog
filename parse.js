@@ -13,7 +13,7 @@ function parse() {
     let current_array = array1[i]
       .split(/( <.*?>)/)
       .filter((s) => s.trim() !== "");
-    console.log("array[i]", array1[i]);
+    // console.log("array[i]", array1[i]);
     if (current_array.length === 3) {
       mailmap[current_array[2]] = current_array[0] + current_array[1];
     } else if (current_array.length === 4) {
