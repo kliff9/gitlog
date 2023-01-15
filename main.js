@@ -20,28 +20,30 @@ function git_log() {
   for (let i = 0; i < 2; i++) {
     console.log(`commit: ${branch_recent_commit}`);
     const InfoLine = commitLines.find((line) => line.startsWith("author"));
-    const parent_line = commitLines.find((line) => line.startsWith("parent"));
 
-    const Author = InfoLine.split(">")[0];
-    const Date_ = InfoLine.split(">")[1];
+    if (InfoLine) {
+      const parent_line = commitLines.find((line) => line.startsWith("parent"));
 
-    console.log(`Arthor: ${Author}`);
+      const Author = InfoLine.split(">")[0];
+      const Date_ = InfoLine.split(">")[1];
 
-    const timestamp = Date_.split(" ")[1];
-    let date = new Date(timestamp * 1000);
-    let options = {
-      weekday: "short",
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-    };
-    let formattedDate = date.toLocaleString("en-US", options);
+      console.log(`Arthor: ${Author}`);
 
-    console.log(`Date: ${formattedDate}`);
+      const timestamp = Date_.split(" ")[1];
+      let date = new Date(timestamp * 1000);
+      let options = {
+        weekday: "short",
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+      };
+      let formattedDate = date.toLocaleString("en-US", options);
 
+      console.log(`Date: ${formattedDate}`);
+    }
     // console.log(`commit: ${branch_recent_commit}`);
   }
 
