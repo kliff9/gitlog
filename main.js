@@ -5,41 +5,47 @@ const fs = require("fs");
 const ref_ = (ref) => `./.git/refs/${ref}/main`;
 
 function git_log() {
-
-  let head = "heads"
+  let head = "heads";
   const branch_recent_commit = fs.readFileSync(ref_(head), "utf8");
   for (let i = 0; i < 10; i++) {}
 
-  const CommitStart = branch_recent_commit.substring(0, 2) // fisrt two characters of the commit hash
-  const Commitfilled = branch_recent_commit.substring(2)// the rest of characters of the commit hash
-  let commit_data_path = `.git/objects/${CommitStart}/${Commitfilled}` // path to the commit data
-  commit_data_path = commit_data_path.trim() // remove any new lines and extra spaces
-  
-  const recentcommit = fs.readFileSync(commit_data_path, 'utf8'); // the data of specifc commit  console.log(recent_commit);
+  const CommitStart = branch_recent_commit.substring(0, 2); // fisrt two characters of the commit hash
+  const Commitfilled = branch_recent_commit.substring(2); // the rest of characters of the commit hash
+  let commit_data_path = `.git/objects/${CommitStart}/${Commitfilled}`; // path to the commit data
+  commit_data_path = commit_data_path.trim(); // remove any new lines and extra spaces
 
-const commitLines = recentcommit.split('\n');
-for (let i = 0; i < 2; i++) {
-  console.log(`commit: ${branch_recent_commit}`);
-  const InfoLine = commitLines.find(line => line.startsWith('author'));
-  const parent_line = commitLines.find(line => line.startsWith('parent'));
+  const recentcommit = fs.readFileSync(commit_data_path, "utf8"); // the data of specifc commit  console.log(recent_commit);
 
-  const Author = InfoLine.split('>')[0];
-  const Date_ = InfoLine.split('>')[1];
+  const commitLines = recentcommit.split("\n");
+  for (let i = 0; i < 2; i++) {
+    console.log(`commit: ${branch_recent_commit}`);
+    const InfoLine = commitLines.find((line) => line.startsWith("author"));
+    const parent_line = commitLines.find((line) => line.startsWith("parent"));
 
-  console.log(`Arthor: ${Author}`);
+    const Author = InfoLine.split(">")[0];
+    const Date_ = InfoLine.split(">")[1];
 
-  const timestamp = Date_.split(' ')[1];
-  let date = new Date(timestamp*1000);
-  let options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit'};
-  let formattedDate = date.toLocaleString("en-US", options);
-  
-  console.log(`Date: ${formattedDate}`);
+    console.log(`Arthor: ${Author}`);
 
-  // console.log(`commit: ${branch_recent_commit}`);
+    const timestamp = Date_.split(" ")[1];
+    let date = new Date(timestamp * 1000);
+    let options = {
+      weekday: "short",
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    };
+    let formattedDate = date.toLocaleString("en-US", options);
 
-}
+    console.log(`Date: ${formattedDate}`);
 
-console.log('PL ',parent_line)
+    // console.log(`commit: ${branch_recent_commit}`);
+  }
+
+  // console.log('PL ',parent_line)
 
   // console.log(recentcommit);
 
