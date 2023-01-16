@@ -19,7 +19,7 @@ const zlib = require("zlib");
 const pako = require("pako");
 
 const packfileData = fs.readFileSync(
-  ".git/objects/pack/pack-e15f0bb0daee4004f4f563759260051ddcf91610.pack"
+  ".git/objects/pack/pack-7e55f6d23a104a9f5dcb78ddf187bd9f5da21e44.pack"
 );
 // const decompressedData = pako.inflate(data.toString());
 
