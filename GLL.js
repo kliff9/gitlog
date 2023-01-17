@@ -1,9 +1,24 @@
 const fs = require("fs");
 const zlib = require("zlib");
-// import parse from "./parse.js";
 const parse = require("./parse.js");
 
 const ref_ = (ref) => `./.git/refs/${ref}/main`;
+
+
+
+let mailmap = parse()
+console.log(mailmap)
+
+
+function check_mailmap() {
+
+  // check if key(email) is in author line
+  //if true then replace
+}
+
+
+
+
 
 function git_log() {
   let head = "heads";
@@ -51,16 +66,12 @@ function git_log() {
 
       branch_recent_commit = parent;
     }
-    // console.log(`commit: ${branch_recent_commit}`);
   }
 
-  // console.log('PL ',parent_line)
 
-  // console.log(recentcommit);
 
-  // console.log(parse());
 }
 
 git_log();
 
-// Read the compressed data from the object file
+

@@ -1,23 +1,10 @@
-// const fs = require("fs");
-// const zlib = require("zlib");
-
-// fs.readFile(
-//   ".git/objects/pack/pack-e15f0bb0daee4004f4f563759260051ddcf91610.pack",
-//   (err, data) => {
-//     if (err) {
-//       console.error(err);
-//       return;
-//     }
-//     const uncompressed_data = zlib.inflateSync(data);
-//     const pack = data.toString();
-//     console.log(data);
-//   }
+/* ------------------- Testing ----------------*/
 // );
 
 const fs = require("fs");
 const zlib = require("zlib");
 const pako = require("pako");
-
+/*
 const packfileData = fs.readFileSync(
   ".git/objects/pack/pack-7e55f6d23a104a9f5dcb78ddf187bd9f5da21e44.pack"
 );
@@ -27,3 +14,19 @@ const packfileData = fs.readFileSync(
 const decompressedData = zlib.inflateSync(packfileData);
 console.log(decompressedData);
 console.log("packfile", packfileData);
+
+*/
+
+const packfilePath = '.git/objects/pack/pack-e034723388cd0497ccb7d9baa8581326cec42d44.pack';
+
+fs.readFile(packfilePath, (err, data) => {
+  if (err) throw err;
+  console.log(data)
+
+  zlib.inflate(data, (err, buffer) => {
+    if (err) throw err;
+
+    // buffer contains the decompressed data
+    console.log(buffer);
+  });
+});

@@ -1,4 +1,7 @@
 // import parse from "./parse.js";
+
+
+/*----------------------------- ------------------------------ */
 const parse = require("./parse.js");
 const fs = require("fs");
 
@@ -6,8 +9,8 @@ const ref_ = (ref) => `./.git/refs/${ref}/main`;
 
 function git_log() {
   let head = "heads";
-  const branch_recent_commit = fs.readFileSync(ref_(head), "utf8");
-  for (let i = 0; i < 10; i++) {}
+  let branch_recent_commit = fs.readFileSync(ref_(head), "utf8");
+  for (let i = 0; i < 10; i++) {
 
   const CommitStart = branch_recent_commit.substring(0, 2); // fisrt two characters of the commit hash
   const Commitfilled = branch_recent_commit.substring(2); // the rest of characters of the commit hash
@@ -17,33 +20,37 @@ function git_log() {
   const recentcommit = fs.readFileSync(commit_data_path, "utf8"); // the data of specifc commit  console.log(recent_commit);
 
   const commitLines = recentcommit.split("\n");
-  for (let i = 0; i < 2; i++) {
+  const InfoLine = commitLines.find((line) => line.startsWith("author"));
+  const parent_line = commitLines.find((line) => line.startsWith("parent"));
+
+  if (InfoLine) {
+    const parent = parent_line.split(" ")[1];
+
+    const Author = InfoLine.split(">")[0];
+    const Date_ = InfoLine.split(">")[1];
+
     console.log(`commit: ${branch_recent_commit}`);
-    const InfoLine = commitLines.find((line) => line.startsWith("author"));
 
-    if (InfoLine) {
-      const parent_line = commitLines.find((line) => line.startsWith("parent"));
+    console.log(`Arthor: ${Author}`);
 
-      const Author = InfoLine.split(">")[0];
-      const Date_ = InfoLine.split(">")[1];
+    const timestamp = Date_.split(" ")[1];
+    let date = new Date(timestamp * 1000);
+    let options = {
+      weekday: "short",
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    };
+    let formattedDate = date.toLocaleString("en-US", options);
 
-      console.log(`Arthor: ${Author}`);
+    console.log(`Date: ${formattedDate}\n`);
 
-      const timestamp = Date_.split(" ")[1];
-      let date = new Date(timestamp * 1000);
-      let options = {
-        weekday: "short",
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-      };
-      let formattedDate = date.toLocaleString("en-US", options);
-
-      console.log(`Date: ${formattedDate}`);
-    }
+    branch_recent_commit = parent;
+  
+  }
     // console.log(`commit: ${branch_recent_commit}`);
   }
 
