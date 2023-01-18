@@ -4,7 +4,7 @@ const parse = require("./parse.js");
 
 const ref_ = (ref) => `./.git/refs/${ref}/main`;
 
-let mailmap = parse('deez')
+let mailmap = parse()
 console.log(mailmap)
 
 function check_mailmap(author_email) {
@@ -22,12 +22,13 @@ function check_mailmap(author_email) {
 function git_log() {
   let head = "heads";
   let branch_recent_commit = fs.readFileSync(ref_(head), "utf8");
-  for (let i = 0; i < 5; i++) {
+
+  for (let i = 0; i < 10; i++) {
+
     const CommitStart = branch_recent_commit.substring(0, 2); // fisrt two characters of the commit hash
     const Commitfilled = branch_recent_commit.substring(2); // the rest of characters of the commit hash
     let commit_data_path = `.git/objects/${CommitStart}/${Commitfilled}`; // path to the commit data
     commit_data_path = commit_data_path.trim(); // remove any new lines and extra spaces
-
 
     const compressed_data = fs.readFileSync(commit_data_path);
     const data = zlib.inflateSync(compressed_data);
@@ -44,23 +45,23 @@ function git_log() {
 
       if (mailmap[author_email]){ 
         let modified_Author = check_mailmap(author_email)
-        console.log(modified_Author)
 
         if(modified_Author && modified_Author.split(" ").includes("filler")) {
           if (!modified_Author.split(" ")[0].includes('filler')) {
-            Author_name = modified_Author.split(" ")[0]
+            Author_name = modified_Author.split(/( <.*?>)/)[0]
 
           }
-          if (!modified_Author.split(" ")[1].includes('filler')) {
-            author_email = modified_Author.split(" ")[1];
+          if (!modified_Author.split(" ")[1].includes('<filler')) { //includes so dont change
+            console.log('true')
+            author_email = modified_Author.split(/( <.*?>)/)[1];
 
           } 
         } else if (modified_Author === false ) {
 
           console.log("failed")
       } else {
-        Author_name = modified_Author.split(" ")[0]
-        author_email = modified_Author.split(" ")[1];
+        Author_name = modified_Author.split(/( <.*?>)/)[0]
+        author_email = modified_Author.split(/( <.*?>)/)[1];
       }
           
 
