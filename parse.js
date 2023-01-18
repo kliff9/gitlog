@@ -21,11 +21,12 @@ let name = nameinput
     if (current_array.length === 3) {
       email = current_array[0]
       username = current_array[1]
-      mailmap[current_array[2]] = email + username;
+      mailmap[current_array[2]] = email + " "+ username;
     } else if (current_array.length === 4) {
-      mailmap[current_array[3]] = current_array[0] + current_array[1];
+      email = current_array[0]
+      username = current_array[1]
+      mailmap[current_array[3]] = email + " "+ username;
     } else if (current_array.length === 2) {
-      console.log('TAIF',current_array[1], current_array[0])
 
       if (current_array[1] && current_array[0].includes("@")) {
          email = current_array[0]

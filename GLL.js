@@ -51,12 +51,13 @@ function git_log() {
       const parent = parent_line.split(" ")[1];
       let Author_name = InfoLine.split(" ")[1];
       let author_email = InfoLine.split(" ")[2];
+      console.log('PREE',Author_name, author_email)
 
-
-      if (mailmap){ 
+      if (mailmap[author_email]){ 
         let modified_Author = check_mailmap(author_email)
+        console.log(modified_Author)
 
-        if(modified_Author) {
+        if(modified_Author && modified_Author.split(" ").includes("filler")) {
           // let modified_Author = check_mailmap(author_email)
           if (!modified_Author.split(" ")[0].includes('filler')) {
             Author_name = modified_Author.split(" ")[0]
@@ -65,10 +66,18 @@ function git_log() {
           if (!modified_Author.split(" ")[1].includes('filler')) {
             author_email = modified_Author.split(" ")[1];
 
-          }
+          } 
+        } else if (modified_Author === false ) {
+
+          console.log("failed")
+      } else {
+        Author_name = modified_Author.split(" ")[0]
+        author_email = modified_Author.split(" ")[1];
+      }
+          
 
            
-        }
+        
 
 
 
