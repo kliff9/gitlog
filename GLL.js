@@ -6,13 +6,22 @@ const ref_ = (ref) => `./.git/refs/${ref}/main`;
 
 
 
-let mailmap = parse()
+let mailmap = parse('deez')
 console.log(mailmap)
 
 
-function check_mailmap() {
 
+
+function check_mailmap(author_email) {
+ let result = false
   // check if key(email) is in author line
+  if (Object.keys(mailmap).includes(author_email)) {
+    result = mailmap[author_email]
+  }
+
+  return result
+
+
   //if true then replace
 }
 
@@ -39,15 +48,41 @@ function git_log() {
     const InfoLine = commitLines.find((line) => line.startsWith("author"));
     const parent_line = commitLines.find((line) => line.startsWith("parent"));
 
-    if (InfoLine) {
       const parent = parent_line.split(" ")[1];
+      let Author_name = InfoLine.split(" ")[1];
+      let author_email = InfoLine.split(" ")[2];
 
-      const Author = InfoLine.split(">")[0];
-      const Date_ = InfoLine.split(">")[1];
+
+      if (mailmap){ 
+        let modified_Author = check_mailmap(author_email)
+
+        if(modified_Author) {
+          // let modified_Author = check_mailmap(author_email)
+          if (!modified_Author.split(" ")[0].includes('filler')) {
+            Author_name = modified_Author.split(" ")[0]
+
+          }
+          if (!modified_Author.split(" ")[1].includes('filler')) {
+            author_email = modified_Author.split(" ")[1];
+
+          }
+
+           
+        }
+
+
+
+      } 
 
       console.log(`commit: ${branch_recent_commit}`);
 
-      console.log(`Arthor: ${Author}`);
+      console.log(`Arthor: ${Author_name} ${author_email}`);
+
+
+      const Date_ = InfoLine.split(">")[1];
+
+
+      
 
       const timestamp = Date_.split(" ")[1];
       let date = new Date(timestamp * 1000);
@@ -66,7 +101,7 @@ function git_log() {
 
       branch_recent_commit = parent;
     }
-  }
+  
 
 
 
