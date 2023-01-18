@@ -38,7 +38,6 @@ function git_log() {
     let commit_data_path = `.git/objects/${CommitStart}/${Commitfilled}`; // path to the commit data
     commit_data_path = commit_data_path.trim(); // remove any new lines and extra spaces
 
-    //   const recentcommit = fs.readFileSync(commit_data_path, "utf8"); // the data of specifc commit  console.log(recent_commit);
 
     const compressed_data = fs.readFileSync(commit_data_path);
     const data = zlib.inflateSync(compressed_data);
@@ -58,7 +57,6 @@ function git_log() {
         console.log(modified_Author)
 
         if(modified_Author && modified_Author.split(" ").includes("filler")) {
-          // let modified_Author = check_mailmap(author_email)
           if (!modified_Author.split(" ")[0].includes('filler')) {
             Author_name = modified_Author.split(" ")[0]
 
@@ -75,11 +73,6 @@ function git_log() {
         author_email = modified_Author.split(" ")[1];
       }
           
-
-           
-        
-
-
 
       } 
 
