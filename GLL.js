@@ -13,11 +13,8 @@ function check_mailmap(author_email) {
   if (Object.keys(mailmap).includes(author_email)) {
     result = mailmap[author_email]
   }
-
   return result
-
 }
-
 
 function git_log() {
   let head = "heads";
@@ -64,7 +61,6 @@ function git_log() {
         author_email = modified_Author.split(/( <.*?>)/)[1];
       }
           
-
       } 
 
       console.log(`commit: ${branch_recent_commit}`);
@@ -92,7 +88,6 @@ function git_log() {
       branch_recent_commit = parent;
     }
   
-
 }
 
 git_log();
