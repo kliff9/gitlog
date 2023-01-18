@@ -4,13 +4,8 @@ const parse = require("./parse.js");
 
 const ref_ = (ref) => `./.git/refs/${ref}/main`;
 
-
-
 let mailmap = parse('deez')
 console.log(mailmap)
-
-
-
 
 function check_mailmap(author_email) {
  let result = false
@@ -21,12 +16,7 @@ function check_mailmap(author_email) {
 
   return result
 
-
-  //if true then replace
 }
-
-
-
 
 
 function git_log() {
@@ -76,11 +66,6 @@ function git_log() {
       }
           
 
-           
-        
-
-
-
       } 
 
       console.log(`commit: ${branch_recent_commit}`);
@@ -89,9 +74,6 @@ function git_log() {
 
 
       const Date_ = InfoLine.split(">")[1];
-
-
-      
 
       const timestamp = Date_.split(" ")[1];
       let date = new Date(timestamp * 1000);
@@ -111,8 +93,6 @@ function git_log() {
       branch_recent_commit = parent;
     }
   
-
-
 
 }
 
