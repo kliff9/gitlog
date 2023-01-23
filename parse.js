@@ -3,93 +3,66 @@ const fs = require("fs");
 function parse() {
   const file = fs.readFileSync(".mailmap", "utf8");
 
-  // const line3 = file.split(/(?=<)/);
   const array1 = file.trim().split(/\n/); // mailmap split line by line
-  // let emailRegex = /<[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}>/;
   let mailmap = {};
-  let email = '<filler__email>' // defaut value for email when the format is 
-  let username = 'filler__name'//
+  let email = '<filler__email>' // filler value for email for Proper Name <commit@email.xx>
+  let username = 'filler__name'// filler value for name for <proper@email.xx> <commit@email.xx>
 
-  let array_length = array1.length;
+  let array_length = array1.length; // for each line in mailmap
   for (let i = 0; i < array_length; i++) {
 
-    let testuesername = array1[i] 
-    console.log(testuesername)
-    let current_array = array1[i].split(/( <.*?>)/)
-    .map(elem => elem.trim())
-    .filter(elem => elem !== "");
+    let current_array = array1[i].split(/( <.*?>)/) // Ex [ 'User Stickas', '<Jamacian@hotmail@.xx>', 'Kliff124', '<121292926+kliff124@users.noreply.github.com>' ]
+    .map(elem => elem.trim())                       // Grab each word in the string in translate to array string
+    .filter(elem => elem !== ""); //
+    console.log(current_array)
 
-    if (current_array.length === 3) {
+    if (current_array.length === 3) { // Format: Proper Name <proper@email.xx> <commit@email.xx>
       email = current_array[0]
       username = current_array[1]
       mailmap[current_array[2]] = email + " "+ username;
-    } else if (current_array.length === 4) {
+    } else if (current_array.length === 4) { // Proper Name <proper@email.xx> Commit Name <commit@email.xx>
       email = current_array[0]
       username = current_array[1]
       mailmap[current_array[3]] = email + " "+ username;
-    } else if (current_array.length === 2) {
-      // email = current_array[1]
-
-
+    } else if (current_array.length === 2) { // format <proper@email.xx> <commit@email.xx> / Proper Name <commit@email.xx>
         if (mailmap[current_array[1]]) {
            if (current_array[0].includes("@")) {
 
-            // mailmap[current_array[1]].split(" ")[1] = current_array[0]
-
-            // Split the value associated with the key 
+       // Split the value associated with the key 
           let value = mailmap[current_array[1]].split(/( <.*?>)/)
 
-// Update the 2nd word
+        // Update the 2nd word
         value[1] = current_array[0]
 
-// Join the array of words back into a single string
-        let updated_value = value.join(" ")
+        // Join the array of words back into a single string
+        let updated_value = value.join("")
 
-// Update the value in the mailmap object
+        // Update the value in the mailmap object
         mailmap[current_array[1]] = updated_value
 
-            // let modifiedString = originalString.replace(/(\S+)\s(\S+)/, "$1 Universe");
-
-           console.log('inalready', mailmap[current_array[1]].split(" ")[1])
            } else {
-            // mailmap[current_array[1]].split(" ")[0] = current_array[0]
             let value2 = mailmap[current_array[1]].split(/( <.*?>)/)
 
             // Update the 2nd word
                     value2[0] = current_array[0]
             
             // Join the array of words back into a single string
-                    let updated_value2 = value2.join(" ")
+                    let updated_value2 = value2.join("")
             
             // Update the value in the mailmap object
                     mailmap[current_array[1]] = updated_value2
-
-            console.log('inalready', mailmap[current_array[1]].split(" ")[0] ,'with ', current_array[0])
-
            }
           } else {
-          if (current_array[0].includes("@")) {
+          if (current_array[0].includes("@")) { // Intialize for Single Changes Ex. 
             email = current_array[0]
-            mailmap[current_array[1]] = 'filler ' +  email
+            mailmap[current_array[1]] = 'filler ' +  email   // '<c.thelusca@hotmail.com>': 'filler <mailmoo@gmail.com>',
 
           } else {
             username = current_array[0]
-            mailmap[current_array[1]] = username +  " <filler>"
+            mailmap[current_array[1]] = username +  "<filler>" //// '<c.thelusca@hotmail.com>': 'Khun filler',
           }
 
         }
-
-
-
-
-      // if (current_array[1] && current_array[0].includes("@")) {
-      //    email = current_array[0]
-      // } else {
-      //    username = current_array[0]
-      // }
-      // mailmap[current_array[1]] = username + " " + email
-
-
 
     } else {
       console.log("error");
@@ -103,19 +76,5 @@ console.log(parse())
 
 module.exports = parse;
 
-/*
-if exist already in mailmap
-then change if its a email or password
-else
-Use a default value
-    } else if (current_array.length === 2) {
+  // let emailRegex = /<[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}>/;
 
-      if (current_array[1] && current_array[0].includes("@")) {
-         email = current_array[0]
-      } else {
-         username = current_array[0]
-      }
-      mailmap[current_array[1]] = username + " " + email
-
-
-*/
