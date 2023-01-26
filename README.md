@@ -4,31 +4,21 @@
 
 This Applications grabs the most recent commit of the Repository at hand and it will log the Aurthor, Date and email. I also implemented .mailmap
 
-## using Git
-```
-node gitlog.js
-```
+## To Do
 
-![image](https://user-images.githubusercontent.com/32655437/209685164-4b44eade-94b2-4774-aa9a-0a22ca9b00e8.png)
+implement mailmap functionality
+read the mailmap file (function)
+program to read any git folder and display the commit Author
+node mailmap.js folder Name (should display all commits in the main branch)
+Only need to list the Arthor Name -> Should show the orginal Author name. (after .mailmap changes)
+1 function to read mailmap and another to replace
 
+command:
+node main.js folder
 
-## GitHub Version
+when executed it will provide a list of commits from the master branch and it show Author Name and Date of creation.
+-.mailmap
+-notes
+-main.js
 
-### Json File returned from the API
-```
-https://api.github.com/repos/kliff9/DopeChat/commits
-```
-
-### The Repo Used in this Api
-https://github.com/kliff9/DopeChat
-
-
-### node app.js
-![image](https://user-images.githubusercontent.com/121292926/209376669-cc832844-f1c8-4845-bbc6-12be4d8729e4.png)
-
-## using git log --use-mailmap
-
-### git log --use-mailmap
-![image](https://user-images.githubusercontent.com/121292926/209376916-27d9ebe9-9d00-42fa-9ffc-c54d39a67980.png)
-
-
+.git/objects/pack - look at isomorphic gitfile and see how they read packfiles

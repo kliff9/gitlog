@@ -1,11 +1,29 @@
-const fs = require("fs");
-const zlib = require("zlib");
-const parse = require("./parse.js");
+// const fs = require("fs");
+// const zlib = require("zlib");
+// const parse = require("./parse.js");
+import fs from 'fs'
+import zlib from 'zlib'
+import parse from './parse.js';
+import path from 'path';
 
-const ref_ = (ref) => `./.git/refs/${ref}/main`;
+const folder_name = process.argv[2];
+console.log(folder_name);
+
+let folder_path
+const current_folder_path = process.cwd();
+let parent_folder_path = path.dirname(current_folder_path);
+// folder_path = path.join(parent_folder_path, folder_name);
+folder_path = folder_name
+console.log(folder_path);
+
+
+// let testopen = fs.readFileSync("C:/Users/cthel/OneDrive/Desktop/LESSONS/Git/digital-garden/.git/refs/heads/master", "utf8");
+// console.log('testopen: ', testopen)
+
+const ref_ = (ref, path) => `${path}/.git/refs/${ref}/master`;
 
 let mailmap = parse()
-console.log(mailmap)
+// console.log(mailmap) 
 
 function check_mailmap(author_email) {
  let result = false
@@ -18,9 +36,9 @@ function check_mailmap(author_email) {
 
 function git_log() {
   let head = "heads";
-  let branch_recent_commit = fs.readFileSync(ref_(head), "utf8");
+  let branch_recent_commit = fs.readFileSync(ref_(head, folder_path), "utf8");
 
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 1; i++) {
 
     const CommitStart = branch_recent_commit.substring(0, 2); // fisrt two characters of the commit hash
     const Commitfilled = branch_recent_commit.substring(2); // the rest of characters of the commit hash
@@ -38,7 +56,7 @@ function git_log() {
       const parent = parent_line.split(" ")[1];
       let Author_name = InfoLine.split(" ")[1];
       let author_email = InfoLine.split(" ")[2];
-      console.log('PREE',Author_name, author_email)
+      // console.log('PREE',Author_name, author_email)
 
       if (mailmap[author_email]){ 
         let modified_Author = check_mailmap(author_email)

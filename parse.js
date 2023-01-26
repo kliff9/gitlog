@@ -1,6 +1,6 @@
-const fs = require("fs");
+import fs from 'fs'
 
-function parse() {
+export default function parse() {
   const file = fs.readFileSync(".mailmap", "utf8");
 
   const array1 = file.trim().split(/\n/); // mailmap split line by line
@@ -14,7 +14,7 @@ function parse() {
     let current_array = array1[i].split(/( <.*?>)/) // Ex [ 'User Stickas', '<Jamacian@hotmail@.xx>', 'Kliff124', '<121292926+kliff124@users.noreply.github.com>' ]
     .map(elem => elem.trim())                       // Grab each word in the string in translate to array string
     .filter(elem => elem !== ""); //
-    console.log(current_array)
+    // console.log(current_array)
 
     if (current_array.length === 3) { // Format: Proper Name <proper@email.xx> <commit@email.xx>
       email = current_array[0]
@@ -71,10 +71,10 @@ function parse() {
   return mailmap;
 
 }
-console.log(parse())
+// console.log(parse())
 
 
-module.exports = parse;
+
 
   // let emailRegex = /<[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}>/;
 
