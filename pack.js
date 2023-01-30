@@ -48,14 +48,58 @@ const indexData = fs.readFileSync(indexFile);
 console.log(fs.statSync(Laptop_filePath).isFile());
 // const packread = fs.read(Laptop_filePath);
 
-const packData = fs.readFileSync(Laptop_filePath);
-
+let packData = fs.readFileSync(Laptop_filePath);
+packData = Buffer.from(packData);
 // Unzip the data using zlib
 
-console.log(indexData);
-console.log(packData);
-let buffer = packData.toString();
-console.log(buffer);
+// console.log(indexData);
+// console.log(packData);
+// let buffer = packData.toString();
+// console.log(buffer);
+const header = packData.slice(0, 12);
+const signature = packData.toString("ascii", 0, 4);
+const version = packData.readUInt32BE(4);
+const numObjects = packData.readUInt32BE(8);
+const read12 = packData.readUInt32BE(12);
+const read16 = packData.readUInt32BE(16);
+
+let offset = 12; // start after the header
+
+const dataLength = packData.length - offset;
+
+console.log(
+  `signature: ${signature}, version: ${version}, numObjects: ${numObjects}, dataLength ${dataLength}, read12: ${read12}, header: ${header}`
+);
+
+const compressedData = packData.slice(offset, offset + dataLength);
+console.log(compressedData);
+
+// const unzippedData = zlib.inflateSync(compressedData);
+
+const compressedData2 = packData.slice(20, 40);
+console.log(compressedData2[0]);
+
+if (signature === "PACK") {
+  // The data is in the DEFLATE format, so decompress it using zlib
+  // zlib.inflate(compressedData, (err, decompressedData) => {
+  //   if (err) throw err;
+  //   console.log(decompressedData);
+  // });
+} else {
+  throw new Error("Unknown packfile format");
+}
+let offsets = 0;
+for (let i = 0; i < 10; i++) {
+  const objectHeader = packData.slice(offsets, offsets + 20);
+  const type = objectHeader.readUInt8(0) >> 4;
+  const size = objectHeader.readUInt32BE(4);
+  const objectData = packData.slice(offsets + 20, offsets + 20 + size);
+  // Do something with the object data
+
+  offsets += 20 + size;
+  console.log(objectHeader, type, objectData[0]);
+}
+// const typeAndLengthBuffer = fs.readSync(packData, 1, offset, "UInt8");
 
 // const unzippedData = zlib.gunzipSync(packData);
 // const unzippedData = zlib.unzipSync(packData);
