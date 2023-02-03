@@ -37,12 +37,12 @@ function check_mailmap(author_email) {
 function git_log() {
   let head = "heads";
   let branch_recent_commit = fs.readFileSync(ref_(head, folder_path), "utf8");
-
-  for (let i = 0; i < 1; i++) {
+console.log(branch_recent_commit)
+  for (let i = 0; i < 3; i++) {
 
     const CommitStart = branch_recent_commit.substring(0, 2); // fisrt two characters of the commit hash
     const Commitfilled = branch_recent_commit.substring(2); // the rest of characters of the commit hash
-    let commit_data_path = `.git/objects/${CommitStart}/${Commitfilled}`; // path to the commit data
+    let commit_data_path = `${folder_path}/.git/objects/${CommitStart}/${Commitfilled}`; // path to the commit data
     commit_data_path = commit_data_path.trim(); // remove any new lines and extra spaces
 
     const compressed_data = fs.readFileSync(commit_data_path);

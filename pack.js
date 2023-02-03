@@ -34,37 +34,55 @@ const indexFile =
 // Read the binary data of the .pack file
 // const packread = fs.read(Laptop_filePath);
 const Desktop_packfilePath =
-  ".git/objects/pack/pack-070502cdb734901cf23c866515dce4645f54e6ae.pack";
+  ".git/objects/pack/pack-e034723388cd0497ccb7d9baa8581326cec42d44.pack";
+
+let packData = fs.readFileSync(Desktop_packfilePath);
 
 
-const packData = fs.readFileSync(Desktop_packfilePath);
-// let pd = fs.read(Desktop_packfilePath)
+packData = Buffer.from(packData);
 // Unzip the data using zlib
 
-pako.inflate(packData)
-
 // console.log(indexData);
-console.log(packData);
+// console.log(packData);
+// let buffer = packData.toString();
+// console.log(buffer);
+const header = packData.slice(0, 12);
+const signature = packData.toString("ascii", 0, 4);
+const version = packData.readUInt32BE(4);
+const numObjects = packData.readUInt32BE(8);
+const read12 = packData.readUInt32BE(12);
+const read16 = packData.readUInt32BE(16);
 
-// const unzippedData = zlib.inflateSync(packData);
+let offset = 12; // start after the header
+
+const dataLength = packData.length - offset;
+
+console.log(
+  `signature: ${signature}, version: ${version}, numObjects: ${numObjects}, dataLength ${dataLength}, read12: ${read12}, header: ${header}`
+);
+
+const compressedData = packData.slice(offset, offset + dataLength);
+console.log(compressedData);
+
+// const unzippedData = zlib.inflateSync(compressedData);
 
 
+// const typeAndLengthBuffer = fs.readSync(packData, 1, offset, "UInt8");
 
 // const unzippedData = zlib.gunzipSync(packData);
 // const unzippedData = zlib.unzipSync(packData);
 
-// Read the packfile into a buffer
-// fs.readFile(Desktop_packfilePath, (err, packfile) => {
-//   if (err) throw err;
+fs.readFile(Desktop_packfilePath, (err, packfile) => {
+  if (err) throw err;
 
-//   // Unpack the packfile
-//   zlib.unzip(packfile, (err, unzipped) => {
-//     if (err) throw err;
+  // Unpack the packfile
+  zlib.inflate(packfile, (err, decompressedData) => {
+    if (err) throw err;
 
-//     // Do something with the unpacked data
-//     console.log(unzipped.toString());
-//   });
-// });
+    // Do something with the unpacked data
+    console.log(decompressedData);
+  });
+});
 
 
 const hexString = bodec.toHex(packData);
