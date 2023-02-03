@@ -10,19 +10,20 @@ const folder_name = process.argv[2];
 console.log(folder_name);
 
 let folder_path;
-const current_folder_path = process.cwd();
-let parent_folder_path = path.dirname(current_folder_path);
-// folder_path = path.join(parent_folder_path, folder_name);
 folder_path = folder_name;
-console.log(folder_path); // C:\Users\Kliff_\Desktop\LESSONS\digital-garden
+console.log(folder_path); 
 
-// let testopen = fs.readFileSync("C:/Users/cthel/OneDrive/Desktop/LESSONS/Git/digital-garden/.git/refs/heads/master", "utf8");
-// console.log('testopen: ', testopen)
+
 
 const ref_ = (ref, path) => `${path}/.git/${ref}`;
-
-let mailmap = parse(folder_path);
-// console.log(mailmap)
+let Ismailmap = path.join(folder_path, "/.mailmap");
+let mailmap = {}
+if (fs.existsSync(Ismailmap)) {
+ mailmap = parse(folder_path);
+  // continue processing mailmap
+} else {
+  console.error(`.mailmap file not found at ${folder_path}`);
+}
 
 function check_mailmap(author_email) {
   let result = false;
@@ -33,24 +34,26 @@ function check_mailmap(author_email) {
   return result;
 }
 
-function git_log() {
+export function git_log() {
   const headFile = fs.readFileSync(`${folder_path}/.git/HEAD`, "utf8");
   const branchName = headFile.split(":").pop().trim();
-  console.log(branchName);
+
   let branch_recent_commit = fs.readFileSync(
     ref_(branchName, folder_path),
     "utf8"
   );
+
   console.log(branch_recent_commit);
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < 5; i++) {
     const CommitStart = branch_recent_commit.substring(0, 2); // fisrt two characters of the commit hash
     const Commitfilled = branch_recent_commit.substring(2); // the rest of characters of the commit hash
     let commit_data_path = `${folder_path}/.git/objects/${CommitStart}/${Commitfilled}`; // path to the commit data
     commit_data_path = commit_data_path.trim(); // remove any new lines and extra spaces
-
+    try {
     const compressed_data = fs.readFileSync(commit_data_path);
     const data = zlib.inflateSync(compressed_data);
     const commit_data = data.toString();
+
 
     const commitLines = commit_data.split("\n");
     const InfoLine = commitLines.find((line) => line.startsWith("author"));
@@ -59,9 +62,8 @@ function git_log() {
     const parent = parent_line.split(" ")[1];
     let Author_name = InfoLine.split(" ")[1];
     let author_email = InfoLine.split(" ")[2];
-    // console.log('PREE',Author_name, author_email)
 
-    if (mailmap[author_email]) {
+    if (author_email in mailmap) {
       let modified_Author = check_mailmap(author_email);
 
       if (modified_Author && modified_Author.split(" ").includes("filler")) {
@@ -103,7 +105,12 @@ function git_log() {
     console.log(`Date: ${formattedDate}\n`);
 
     branch_recent_commit = parent;
+  } catch (error) {
+    console.log('A error has Occured, Cannot Read data from \x1b[36m%s\x1b[0m', '.git/objects');  //cyan
+    break
+  }
   }
 }
 
-git_log();
+
+
