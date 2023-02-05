@@ -69,7 +69,7 @@ export default function parse(file_path) {
           mailmap[current_array[1]] = "filler " + email; // '<c.thelusca@hotmail.com>': 'filler <mailmoo@gmail.com>',
         } else {
           username = current_array[0];
-          mailmap[current_array[1]] = username + " <filler>"; //// '<c.thelusca@hotmail.com>': 'Khun filler',
+          mailmap[current_array[1]] = username + " <filler_email>"; //// '<c.thelusca@hotmail.com>': 'Khun filler',
         }
       }
     } else {
