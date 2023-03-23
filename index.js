@@ -1,5 +1,5 @@
 let file = `
-
+Joe R. Developer <joe@example.com>
 Jane Doe <jane@example.com> <jane@laptop.(none)>
 Jane Doe <jane@example.com> <jane@desktop.(none)>
 Joe R. Developer <joe@example.com> Joe <bugs@example.com>
