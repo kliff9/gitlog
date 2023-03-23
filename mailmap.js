@@ -1,25 +1,29 @@
-import fs from "fs";
-import path from "path";
+// import fs from "fs";
+// import path from "path";
 
-export default function parse(file_path) {
-  let file;
+export function parseMailmap(file) {
+  // let file;
 
-  try {
-    let folder_path = path.join(file_path, "/.mailmap");
-    file = fs.readFileSync(folder_path, "utf8");
-  } catch (error) {
-    console.error(error);
-    return;
-  }
+  // try {
+  //   let folder_path = path.join(file_path, "/.mailmap");
+  //   file = fs.readFileSync(folder_path, "utf8");
+  // } catch (error) {
+  //   console.error(error);
+  //   return;
+  // }
 
-  const array1 = file.trim().split(/\n/); // mailmap split line by line
+  const mailmapLines = file.trim().split(/\n/); // mailmap split line by line
   let mailmap = {};
-  let email = "<filler__email>"; // filler value for email for Proper Name <commit@email.xx>
-  let username = "filler__name"; // filler value for name for <proper@email.xx> <commit@email.xx>
+  let email;
+  let username;
 
-  let array_length = array1.length; // for each line in mailmap
+for (const line of mailmapLines) {
+  console.log(line);
+}
+  
+  let array_length = mailmapLines.length; // for each line in mailmap
   for (let i = 0; i < array_length; i++) {
-    let current_array = array1[i]
+    let current_array = mailmapLines[i]
       .split(/( <.*?>)/) // Ex [ 'User Stickas', '<Jamacian@hotmail@.xx>', 'Kliff124', '<121292926+kliff124@users.noreply.github.com>' ]
       .map((elem) => elem.trim()) // Grab each word in the string in translate to array string
       .filter((elem) => elem !== ""); //
@@ -76,9 +80,8 @@ export default function parse(file_path) {
       console.log("error");
     }
   }
-  console.log(mailmap);
 
   return mailmap;
 }
 
-// let emailRegex = /<[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}>/;
+
