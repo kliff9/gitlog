@@ -12,13 +12,22 @@ export function parseMailmap(file) {
   //   return;
   // }
 
-  const mailmapLines = file.trim().split(/\n/); // mailmap split line by line
+  const mailmapLines = [];
   let mailmap = {};
   let email;
   let username;
 
-for (const line of mailmapLines) {
-  console.log(line);
+for (const ln of file.split('\n')) {
+  const line = ln.trim()
+  if( line.charAt(0) === '#' ) {
+    continue
+  } else if ( line === '' ) {
+    continue
+  }
+
+  // parser code
+  line // regular expression capture groups
+  
 }
   
   let array_length = mailmapLines.length; // for each line in mailmap

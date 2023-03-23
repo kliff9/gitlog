@@ -1,4 +1,8 @@
 let file = `
+# comment
+    # padded comment
+
+    
 Joe R. Developer <joe@example.com>
 Jane Doe <jane@example.com> <jane@laptop.(none)>
 Jane Doe <jane@example.com> <jane@desktop.(none)>
